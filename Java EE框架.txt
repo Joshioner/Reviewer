@@ -1,0 +1,40 @@
+1.Tomcat装载Servlet的三种情况
+（1）Servlet容器启动时自动装载某些Servlet,实现它只需要在web.xml文件中的<Servlet></Servlet>之间添加如下代码
+：<loadon-startup>1</loadon-starup>数字越小表示优先级别越高。
+（2）在Servlet容器启动后，客户首次向Servlet发送请求
+（3）Servlet类文件被更新后，会重新装载Servlet
+
+2.创建的servlet是继承自httpServlet，而不是直接实现Servlet接口的原理
+https://www.cnblogs.com/zhangyinhua/p/7625851.html
+
+3.转发（forward）和重定向（redirect）的区别：
+转发是在服务器端的行为，重定向是客户端的行为；
+转发的话的地址栏URL不变，重定向的话地址URL发送了变化；
+转发的是同一次请求，重定向会执行两次请求；
+转发只能转发到本应用内的url,重定向可以请求本应用外的资源；
+转发之后保存在request中的信息还是共享的，而重定向则不是。
+
+
+3.JSP的三大指令作用
+（1）page：用于定义JSP页面的各种属性，无论page指令出现在JSP页面中的哪个位置，它都是作用于整个JSP
+（2）include：用于包含文件
+-----Jsp中的静态包含与动态包含
+   @include指令（静态包含）：等文件全部包含进来只有，在一起进行编译
+   jsp:include指令（动态包含）：会先将文件进行编译，在包含。
+（3）taglib:用于在JSP页面中导入标签库。
+
+4.JSP的九大内置对象
+（1）request对象：代表了客户端的请求信息，接受通过http协议传送到服务器的数据。  作用域为一次请求。
+（2）response对象：代表了对客户端的响应信息。主要是将JSP容器处理过的对象传送给客户端。  它只在JSP页面中有效
+（3）session对象：由服务器创建的与用户请求相关的信息。用于保存用户的信息，跟踪用户的操作状态。
+（4）application对象：可将信息保存在服务器中，直到服务器关闭。
+（5）out对象：向web浏览器输出信息
+（6）exception对象：用于显示异常信息，只有在包含 isErrorPage="true" 的页面中才可以被使用
+（7）page对象：代表JSP本身，只有在JSP页面内才是合法的。
+（8）pageContext对象：对象的创建和初始化都是由容器来完成的，作用：可以获取任何范围内的参数。获取JSP页面的out、request等对象
+（9）config对象：取得服务器的配置信息。
+
+
+5.JSP和Servlet的区别：
+ JSP其实的servlet的扩展,JSP主要用于显示视图，servlet则主要用于处理业务逻辑
+ JSP的执行过程：一般由容器交给JSP执行引擎，先翻译成servlet(Java文件)，在编译成class文件，然后执行同servlet一样的操作。

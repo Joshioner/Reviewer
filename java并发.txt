@@ -1,0 +1,52 @@
+1.sleep()方法可能会抛出InterruptedException,为什么必须在本地进行处理？
+  --因为异常不能跨线程传播回main()方法中，因此必须在本地进行处理。
+  
+  
+2.中断线程的方法
+（1）通过调用一个线程的interrupt()来中断该线程，如果该线程处于阻塞、限期等待或者无限期等待，那么就会抛出InterruptedException，从而提前结束该线程。
+（2）如果线程没有会抛出InterruptedException的操作，那么调用线程的interrupt()方法并不能使线程提前结束。但interrupt()方法会设置线程的中断标志，此时调用
+   interrupted()方法会返回true。因此可以在循环体中使用interrupted()来判断线程是否处于中断状态，从而提前结束线程。
+------Executor 的中断操作：
+  调用Executor的shutdown（）方法会等待线程执行完毕后在关闭，而shutdownNow（）方法则是立即关闭线程，不等待执行完毕。
+  共同点：都是不接受新的任务。
+ 
+ 
+3.CountdownLatch 和 join的区别
+CountDownLatch与join的区别：调用thread.join() 方法必须等thread 执行完毕，当前线程才能继续往下执行，
+而CountDownLatch通过计数器提供了更灵活的控制，只要检测到计数器为0当前线程就可以往下执行而不用管相应的thread是否执行完毕。
+
+
+
+4.Java内存模型与线程
+ 
+ 内存模型：为了屏蔽掉操作系统和各种硬件的内存访问差异（记住那个图形，8个原子性操作。lock,unlock,read,load,use,assign,store,write）
+  
+  volatile的特点：1. 可见性（一个线程修改了这个变量的值，其他线程可立即得知）
+                  2. 禁止指令重排（单例模式）			  
+				  //双重加锁检验
+				  private Person person;
+				  public static getInstance(){
+				    if(person == null){
+					 synchronized(Person.class){
+					    if(person == null){
+						   person = new Person();  ----->发生的指令 1.分配内存空间  2.初始化对象 3.将初始化的对象指向分配好的空间
+						                      -------->可能发生的情况：1 3 2，还没初始化对象就先分配空间，报错（volatile可以禁止指令重排）
+						}
+					 }
+					}
+				  }
+	
+  内存模型的特点：
+      1.原子性（synchronized 	注意：volatite不能保证原子性，也不能保证线程安全）  
+	  2.可见性（synchronized，volatite可以保证可见性）
+	  3.有序性（synchronized，volatite可以保证有序性）
+---------有一个 ”先行发生规则“也保证了线程的有序性（8条）
+
+  
+  线程：
+实现方式：
+1.使用内核线程实现
+2.使用用户线程实现
+3.使用内核线程加用户线程实现
+  
+  线程的状态切换：新建、运行、等待（主动）、阻塞（被动）、结束
