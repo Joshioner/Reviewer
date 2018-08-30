@@ -86,7 +86,7 @@ https://www.cnblogs.com/zhangyinhua/p/7625851.html
  
  10.Struts拦截器和Spring AOP区别
   struts2使用拦截器主要是用来处理用户的请求，OGNL的使用，表单验证 等 
-  而spring的拦截器，主要体现在AOP的事务管理方面，还有比如一些错误或者异常的日志的显示 也是通过配置spring的log拦截器来实现的
+  而spring的拦截器，主要体现在AOP的事务管理方面，还有比如一些错误或者异常的日志的显示 也是通过配置spring的log拦截器来实现的。
  
 
 
