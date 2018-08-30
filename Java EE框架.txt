@@ -38,3 +38,58 @@ https://www.cnblogs.com/zhangyinhua/p/7625851.html
 5.JSP和Servlet的区别：
  JSP其实的servlet的扩展,JSP主要用于显示视图，servlet则主要用于处理业务逻辑
  JSP的执行过程：一般由容器交给JSP执行引擎，先翻译成servlet(Java文件)，在编译成class文件，然后执行同servlet一样的操作。
+ 
+ 
+ 
+6.JDK动态代理和CGLib动态代理：
+ JDK动态代理：目标类必须实现了一个接口，实现InvocationHandle接口，通过Proxy.newProxyInstance()方法获得目标类的一个代理类
+ CGLib动态代理：通过实现Inteceptor接口，生成一个目标类的子类
+ 
+7.Spring中的注解：
+@Component：可以用于注册所有bean
+@Repository：主要用于注册dao层的bean
+@Controller：主要用于注册控制层的bean
+@Service：主要用于注册服务层的bean
+-------@Resource默认按照名称方式进行bean匹配，@Autowired默认按照类型方式进行bean匹配
+
+
+8.Spring AOP:
+ 连接点（joinpoint）:
+ 被拦截到的点，因为Spring只支持方法类型的连接点，所以在Spring中连接点指的就是被拦截到的方法，
+ 实际上连接点还可以是字段或者构造器
+ 
+ 通知（advice）:
+所谓通知指的就是指拦截到连接点之后要执行的代码，通知分为前置、后置、异常、最终、环绕通知五类
+----通知执行的优先级
+进入目标方法时,先织入Around,再织入Before，退出目标方法时，先织入Around,再织入AfterReturning,最后才织入After。
+注意:Spring AOP的环绕通知会影响到AfterThrowing通知的运行,不要同时使用!同时使用也没啥意义。
+
+切入点（pointcut）:
+对连接点进行拦截的定义
+
+切面（Aspect）:
+是切入点和通知（引介）的结合
+
+目标对象
+代理的目标对象
+
+ 9.Spring IOC的理解：
+ IOC:控制反转，将创建对象的主动权交给容器去创建。
+ DI:依赖注入，容器创建完对象之后，当我们需要对象的时候帮我们注入到其中。
+ 
+ ====好处：（1）降低了模块间的耦合度，当需要对象的时候直接注入即可。（2）方便进行单元测试。
+ 
+ ====技术剖析
+ 利用了反射机制。
+ 好处：在运行的过程中，动态的获取类的对象、方法、属性等
+ 缺点：（1）反射需要消耗性能，在一定程度上会降低效率 （2）会破坏对象的安全性，可以动态获取私有的一些属性，破坏了它的权限性。
+ 
+ 10.Struts拦截器和Spring AOP区别
+  struts2使用拦截器主要是用来处理用户的请求，OGNL的使用，表单验证 等 
+  而spring的拦截器，主要体现在AOP的事务管理方面，还有比如一些错误或者异常的日志的显示 也是通过配置spring的log拦截器来实现的
+ 
+
+
+
+
+
