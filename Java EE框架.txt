@@ -87,9 +87,49 @@ https://www.cnblogs.com/zhangyinhua/p/7625851.html
  10.Struts拦截器和Spring AOP区别
   struts2使用拦截器主要是用来处理用户的请求，OGNL的使用，表单验证 等 
   而spring的拦截器，主要体现在AOP的事务管理方面，还有比如一些错误或者异常的日志的显示 也是通过配置spring的log拦截器来实现的
+  
+  11.Spring IOC的初始化过程：
+  （1）定位Resource资源文件
+  （2）BeanDifition的载入
+     ---构造一个BeanFactory，也就是IOC容器
+	 ---调用XML解析器得到document对象
+	 ---按照Spring的规则解析成BeanDifition
+  （3）向IOC容器中注册BeanDefinition，这个过程其实就是将前面的BeanDefinition保存到HashMap的过程。
+  
+  
+  
+  12.SpringMVC和Struts的区别：
+（1）SpringMVC是方法级别的拦截，一个方法对应一个request上下文，是单例的；
+     Struts是基于类的设计，是多例的，每次发一个请求，都会实例一个action
+ （2）SpringMVC的入口是servlet，而Struts的入口是filter,导致了这两个的机制不同
+        servlet:主要进行逻辑处理，读取客户端的请求信息，处理完请求对象之后，将返回的信息封装在响应对象中，返回给客户端
+		Fielter:在一个请求到达servlet之前，先对请求信息进行预处理，当servlet处理完之后，可以处理http响应信息
+		可以做进行字符编码的过滤，实现用户自动登录，禁止页面缓存。
+ （3）struts有以自己的interceptor机制，springmvc用的是独立的AOP方式。这样导致struts的配置文件量还是比springmvc大
+ （4）SpringMVC可以很容易的处理ajax请求，只需加一个注解@ResponseBody,则可以直接返回json数据，处理很方便
  
 
+ 
+  13.session和cookie的区别：
+ （1）cookie数据存放在客户的浏览器上，session数据放在服务器上。
 
+（2）cookie不是很安全，别人可以分析存放在本地的cookie并进行cookie欺骗，考虑到安全应当使用session。
+
+（3）session会在一定时间内保存在服务器上。当访问增多，会比较占用你服务器的性能，考虑到减轻服务器性能方面，应当使用cookie。
+
+（4）单个cookie保存的数据不能超过4K，很多浏览器都限制一个站点最多保存20个cookie。
+
+（5）可以考虑将登陆信息等重要信息存放为session，其他信息如果需要保留，可以放在cookie中。
+
+
+   14.Hibernate中get和load有什么不同之处?
+   （1）Hibernate的get方法，会确认一下该id对应的数据是否存在，首先在session缓存中查找，然后在二级缓存中查找，还没有就查询数据库，数据库中没有就返回null。
+   （2）Hibernate的load方法加载实体对象的时候，根据映射文件上类级别的lazy属性的配置(默认为true)：
+    ①若为true,则首先在Session缓存中查找，看看该id对应的对象是否存在，不存在则使用延迟加载，
+	返回实体的代理类对象(该代理类为实体类的子类，由CGLIB动态生成)。等到具体使用该对象(除获取OID以外)的时候，
+	再查询二级缓存和数据库，若仍没发现符合条件的记录，则会抛出一个ObjectNotFoundException。 
+     ②若为false,就跟Hibernate的get方法查找顺序一样，只是最终若没发现符合条件的记录，则会抛出一个ObjectNotFoundException，
+	 所说的load方法抛异常是指在使用该对象的数据时，数据库中不存在该数据时抛异常，而不是在创建这个对象时。
 
 
 
